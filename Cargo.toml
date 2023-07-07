@@ -1,6 +1,6 @@
 [package]
 authors = ["Claus Matzinger <claus.matzinger+kb@gmail.com>", "Param Pal Singh <singhparampal97@gmail.com"]
-edition = "2023"
+edition = "2018"
 name = "manning-lp-async-rust-project"
 version = "0.1.0"
 
