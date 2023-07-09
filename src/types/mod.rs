@@ -6,8 +6,8 @@ use crate::calculations::{max, min, n_window_sma, price_diff};
 #[derive(Parser, Debug)]
 #[clap(
     version = "1.0",
-    author = "Claus Matzinger",
-    about = "A Manning LiveProject: async Rust"
+    author = "Param Singh, Claus Matzinger",
+    about = "A Manning LiveProject: Async Streams in Rust"
 )]
 pub struct Opts {
     /// Optional .txt source file to read symbols from

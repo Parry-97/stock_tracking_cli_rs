@@ -3,7 +3,7 @@ use std::{error::Error, time::Duration};
 use actix::Actor;
 use chrono::{DateTime, Utc};
 use clap::Parser;
-use manning_lp_async_rust_project::{
+use stock_cli::{
     actors::{
         DataLoadActor, DataLoadMessage, DataProcessActor, DataProcessMessage, DataSaveActor,
         DataSaveMessage,
