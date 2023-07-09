@@ -6,7 +6,7 @@ This is a CLI app for tracking the price of stocks. It uses the [Yahoo Finance A
 - [Yahoo Finance API](https://docs.rs/yahoo_finance_api/latest/yahoo_finance_api/index.html) for getting the stock prices
 - [Rustls](https://docs.rs/rustls/0.19.1/rustls/) for HTTPS requests
 - [Tokio](https://docs.rs/tokio/1.9.0/tokio/) for async runtime
-- [Actix]("https://actix.rs/") for actor system
+- [Actix](https://actix.rs/) for actor system
 
 The app is compiled using the 2018 edition of Rust.
 
