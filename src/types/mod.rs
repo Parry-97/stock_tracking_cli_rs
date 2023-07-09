@@ -10,10 +10,17 @@ use crate::calculations::{max, min, n_window_sma, price_diff};
     about = "A Manning LiveProject: async Rust"
 )]
 pub struct Opts {
-    #[clap(short, long, default_value = "AAPL,MSFT,UBER,GOOG")]
-    symbols: String,
+    /// Optional .txt source file to read symbols from
+    #[clap(short, long, default_value = "sp500.may.2020.txt")]
+    pub source: String,
+
+    /// Required start date for the period to fetch
     #[clap(short, long)]
     pub from: String,
+
+    /// Optional number of max iterations to run
+    #[clap(short, long, default_value = "1")]
+    pub max_iterations: usize,
 }
 
 #[derive(Debug)]

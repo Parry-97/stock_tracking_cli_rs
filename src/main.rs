@@ -19,8 +19,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let from: DateTime<Utc> = opts.from.parse().expect("Couldn't parse 'from' date");
     let to = Utc::now();
     let mut interval = time::interval(Duration::from_secs(30));
-    let path = "sp500.may.2020.txt";
+    let path: String = opts.source.parse().expect("Couldn't parse 'path'");
     let save_path = path.replace(".txt", ".csv");
+    let max_iters = opts.max_iterations;
     // let content = fs::read_to_string(path).await?;
 
     // let mono_addr = MonoActor {}.start();
@@ -39,6 +40,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
         //     })
         //     .await??;
         // println!("{}\niteration #{}", mono_process, iterations);
+        if iterations > max_iters {
+            break;
+        }
         let data_load_process = data_load_addr
             .send(DataLoadMessage {
                 path: path.to_string(),
@@ -60,9 +64,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
             })
             .await??;
         iterations += 1;
-        if iterations > 2 {
-            break;
-        }
 
         interval.tick().await;
     }
