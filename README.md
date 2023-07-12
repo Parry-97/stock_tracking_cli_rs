@@ -7,8 +7,12 @@ This is a CLI app for tracking the price of stocks. It uses the [Yahoo Finance A
 - [Rustls](https://docs.rs/rustls/0.19.1/rustls/) for HTTPS requests
 - [Tokio](https://docs.rs/tokio/1.9.0/tokio/) for async runtime
 - [Actix](https://actix.rs/) for actor system
+- [Warp](https://docs.rs/warp/0.3.1/warp/) for web server and buffer REST service
 
 The app is compiled using the 2018 edition of Rust.
+
+The app architecture can be summarized in the following diagram:
+![Architecture diagram](https://d16rtcb5cr0vb4.cloudfront.net/C0683+Processing+Data+in+Async+Actors+%2FResources%2FImages%2F2021-07-14_Data-Streaming-with-Async-Rust-2+%281%29_V1.png?Expires=1689211669&Signature=aoXT7N2c-b00zlj~Ugooe0TsByrrC6aVblbAeFLDE69oMew3EXJfgbYjaN0FD-kvnt0HCl6JShTOc2MqJFNhNPOLkoCB8yhID~3iaE7w5CsC15lcVVztVZsjDQil8ZzfXKWoqeGIW1IxERZ492lEUoVZwc5BvhjJAqWasevfXs~NPeoFe6wi4WVvnP9MIo-FTIiRcVYTvupgih52RCUoddXhbWVAte3CkB93hzsiWk2UlGF9Gtn6JNtkLcUJR4kzVtuU1TbBhbGOGJJdDMpAIkWfidlikFyvZjUNVnNmI5ansrJeDi-BZ53L5ebcgg7T3u7Ddky8Ea-iiXLQUKAgjA__&Key-Pair-Id=APKAIHLKH2FX732Z3HGA)
 
 ## Example Usage
 
