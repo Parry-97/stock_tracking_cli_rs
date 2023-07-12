@@ -42,7 +42,7 @@ pub async fn fetch_stock_data(
 ) -> Result<String, std::io::Error> {
     let csv_symbols = content.split(',');
     let mut handles = vec![];
-    let mut lines = vec!["period start,symbol,price,change %,min,max,30d avg".to_string()];
+    let mut lines = vec![];
     for symbol in csv_symbols {
         handles.push(tokio::spawn(fetch_symbol(
             symbol.to_owned(),
@@ -61,12 +61,12 @@ pub async fn fetch_stock_data(
 async fn fetch_symbol(symbol: String, from: DateTime<Utc>, to: DateTime<Utc>) -> String {
     let closes_fetched = fetch_closing_data(&symbol, &from, &to).await;
     if closes_fetched.is_err() {
-        return "Could not fetch closing data".to_string();
+        return "N/A,N/A,N/A,N/A,N/A,N/A,N/A".to_string();
     }
     let closes = closes_fetched.unwrap();
 
     if closes.is_empty() {
-        return "Retrieved Series is is empty".to_string();
+        return "N/A,N/A,N/A,N/A,N/A,N/A,N/A".to_string();
     }
     // min/max of the period. unwrap() because those are Option types
     let max_signal = MaxPrice {};

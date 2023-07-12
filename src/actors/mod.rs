@@ -1,3 +1,5 @@
+use std::{collections::VecDeque, fs};
+
 use actix::{Actor, Context, Handler, Message, ResponseFuture};
 use chrono::{DateTime, Utc};
 use tokio::{fs::OpenOptions, io::AsyncWriteExt};
@@ -100,13 +102,78 @@ impl Handler<DataSaveMessage> for DataSaveActor {
         Box::pin(async move {
             let path = msg.path;
             let content = msg.content;
+
+            let final_content = if fs::metadata(&path).is_ok() {
+                format!("{}\n", content)
+            } else {
+                format!(
+                    "period start,symbol,price,change %,min,max,30d avg\n{}\n",
+                    content
+                )
+            };
             let mut file = OpenOptions::new()
                 .append(true)
                 .create(true)
                 .open(path)
                 .await?;
-            file.write_all(content.as_bytes()).await?;
+            file.write_all(final_content.as_bytes()).await?;
             Ok(())
         })
+    }
+}
+
+pub struct BufferActor {
+    buffer: VecDeque<String>,
+    max_buffer_size: usize,
+}
+
+impl BufferActor {
+    pub fn new(max_buffer_size: usize) -> Self {
+        Self {
+            buffer: VecDeque::with_capacity(max_buffer_size),
+            max_buffer_size,
+        }
+    }
+}
+
+#[derive(Message)]
+#[rtype(result = "Result<(), std::io::Error>")]
+pub struct BufferMessage {
+    pub content: String,
+}
+
+impl Actor for BufferActor {
+    type Context = Context<Self>;
+}
+
+impl Handler<BufferMessage> for BufferActor {
+    type Result = Result<(), std::io::Error>;
+    fn handle(&mut self, msg: BufferMessage, _: &mut Self::Context) -> Self::Result {
+        if self.buffer.len() == self.max_buffer_size {
+            self.buffer.pop_back();
+        }
+        self.buffer.push_front(msg.content);
+        Ok(())
+    }
+}
+
+#[derive(Message)]
+#[rtype(result = "Result<Vec< String >, std::io::Error>")]
+pub struct BufferReadMessage {
+    pub n: usize,
+}
+
+impl Handler<BufferReadMessage> for BufferActor {
+    type Result = Result<Vec<String>, std::io::Error>;
+    fn handle(&mut self, msg: BufferReadMessage, _: &mut Self::Context) -> Self::Result {
+        let mut content = vec![];
+        for _ in 0..msg.n {
+            if let Some(line) = self.buffer.pop_front() {
+                content.push(line);
+            } else {
+                break;
+            }
+        }
+        Ok(content)
     }
 }

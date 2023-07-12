@@ -17,10 +17,9 @@ pub struct Opts {
     /// Required start date for the period to fetch
     #[clap(short, long)]
     pub from: String,
-
-    /// Optional number of max iterations to run
-    #[clap(short, long, default_value = "1")]
-    pub max_iterations: usize,
+    // Optional number of max iterations to run
+    // #[clap(short, long, default_value = "1")]
+    // pub max_iterations: usize,
 }
 
 #[derive(Debug)]
